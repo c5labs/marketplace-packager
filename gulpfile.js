@@ -5,12 +5,23 @@ var del = require('del');
 var change = require('gulp-change');
 var zip = require('gulp-zip');
 var rename = require("gulp-rename");
+var fs = require('fs');
 
 /*
   | Refuse to run without a source
  */
 if (typeof argv.source === "undefined") {
     console.error("You must specify as source (i.e. gulp --source /my/folder/name)");
+    process.exit(1);
+}
+
+/*
+ | Try accessing the source path
+ */
+try {
+    fs.accessSync(argv.source, fs.F_OK);
+} catch (e) {
+    console.error("I couldn't access the source path '"+argv.source+"'.");
     process.exit(1);
 }
 
