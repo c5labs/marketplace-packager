@@ -1,5 +1,5 @@
 {
-  "name": "concrete5-package-processor",
+  "name": "concrete5-marketplace-paclager",
   "version": "0.1.0",
   "description": "Prepares packages for submission to the marketplace.",
   "main": "gulpfile.js",
@@ -24,7 +24,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "TBC"
+    "url": "https://github.com/c5labs/marketplace-packager"
   },
   "keywords": [
     "concrete5"
