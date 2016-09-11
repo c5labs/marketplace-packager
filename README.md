@@ -87,4 +87,4 @@ So... to skip running composer we would run:
 See attached license file.
 
 ## Change Log
-See releases on GitHub [here]()
+See releases on GitHub [here](https://github.com/c5labs/marketplace-packager/releases)
