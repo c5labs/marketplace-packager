@@ -19,11 +19,11 @@ if (typeof argv.source === "undefined") {
  */
 var source = argv.source,
     package_name = argv.package || 'my_package',
-    destination = 'dist/'+package_name;
+    destination = 'build/'+package_name;
 
 /*
  | Move the files from the source into 
- | a build directory 'dist'.
+ | a build directory 'build'.
  */
 gulp.task('move', function(){
   return gulp.src([
@@ -111,7 +111,7 @@ gulp.task('clean-php', ['compose'], function() {
  */
 gulp.task('package', ['compose', 'clean-php', 'phpfixer'], function() {
     if (typeof argv.nopackage === "undefined") {
-       return gulp.src(['./dist/**'])
+       return gulp.src(['./build/**'])
             .pipe(zip(package_name+'.zip'))
             .pipe(gulp.dest('./releases'));
     }
@@ -122,9 +122,9 @@ gulp.task('package', ['compose', 'clean-php', 'phpfixer'], function() {
  | Clean-up by removing the build directory.
  */
 gulp.task('cleanup', ['package'], function() {
-    if (typeof argv.skipexecutes === "undefined" && typeof argv.nopackage === "undefined") {
+    if (typeof argv.skipcleanup === "undefined" && typeof argv.nopackage === "undefined") {
         return del.sync([
-            './dist'
+            './'+destination
           ]);
     }
     return null;
