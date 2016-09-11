@@ -1,3 +1,4 @@
 node_modules
 releases/*
+!releases/.gitkeep
 .DS_Store
