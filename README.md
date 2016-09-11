@@ -42,7 +42,7 @@ That's it! You can now run the packager.
 
 To run the packager, change to the directory that you installed the packager in. You will need the source location of the package that you want to process and also the packages handle.
 
-The handle should be the same as that specified in your packages `controller.php` files `$pkgHandle` property. In the examples we'll use a package with the handle 'test_package'. You can source the package
+The handle should be the same as that specified in your packages `controller.php` files `$pkgHandle` property. In the examples we'll use a package with the handle 'test_package'.
 
 You can tell the packager to source the package from anywhere on your system, this may be in an active concrete5 installations packages directory or elsewhere.
 
@@ -74,11 +74,11 @@ You can enable / disable various functionality with switches:
 `--skipexecutes` - Don't add missing `defined('C5_EXECUTE') or die('Access Denied.');` statements to files
 
 
-`--nopackage` - Don't create a marketplace zip file, this will leave the processes plugin within the `build` directory
+`--nopackage` - Don't create a marketplace zip file, this will leave the package within the `build` directory
 
-`--nocleanup` - Don't remove the `build` folder after creating the package
+`--nocleanup` - Don't remove the package from the `build` directory after creating the zip
 
-So to skip running composer we would run:
+So... to skip running composer we would run:
 
     
     gulp --source /web/concrete5-test-site/packages/test_package --package test_package --skipcompose
