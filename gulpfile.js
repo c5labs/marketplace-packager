@@ -47,9 +47,16 @@ gulp.task('move', function(){
 /*
  | Install composer dependencies.
  */
-gulp.task('compose', ['move'], function(cb) {
+gulp.task('compose', ['clean-php'], function(cb) {
     if (typeof argv.skipcompose === "undefined") {
-        exec('composer install --working-dir '+destination, function (err, stdout, stderr) {
+
+        // Remove any existing dependencies.
+        del.sync([
+            './'+destination+'/vendor'
+        ]);
+
+        // Install.
+        exec('composer install --prefer-dist --working-dir '+destination, function (err, stdout, stderr) {
             console.log(stdout);
             console.log(stderr);
             cb(err);
@@ -61,7 +68,7 @@ gulp.task('compose', ['move'], function(cb) {
 /*
  | Run phpfixer (https://github.com/FriendsOfPHP/PHP-CS-Fixer)
  */
-gulp.task('phpfixer', ['clean-php'], function(cb) {
+gulp.task('phpfixer', ['compose'], function(cb) {
     if (typeof argv.phpfixer !== "undefined") {
         exec(argv.phpfixer+' fix '+destination, function (err, stdout, stderr) {
             console.log(stdout);
@@ -79,7 +86,7 @@ gulp.task('phpfixer', ['clean-php'], function(cb) {
  | to use the Laravel F/W versions and also adds c5 do not execute 
  | statements to any PHP files without them
  */
-gulp.task('clean-php', ['compose'], function() {
+gulp.task('clean-php', ['move'], function() {
 
     function doChange(content) {
         var i;
@@ -122,6 +129,7 @@ gulp.task('clean-php', ['compose'], function() {
  */
 gulp.task('package', ['compose', 'clean-php', 'phpfixer'], function() {
     if (typeof argv.nopackage === "undefined") {
+        console.log('Creating package at releases/'+package_name+'.zip');
        return gulp.src(['./build/**'])
             .pipe(zip(package_name+'.zip'))
             .pipe(gulp.dest('./releases'));
@@ -141,4 +149,4 @@ gulp.task('cleanup', ['package'], function() {
     return null;
 });
 
-gulp.task('default', ['move', 'compose', 'clean-php', 'phpfixer', 'package', 'cleanup']);
+gulp.task('default', ['move', 'clean-php', 'compose', 'phpfixer', 'package', 'cleanup']);
